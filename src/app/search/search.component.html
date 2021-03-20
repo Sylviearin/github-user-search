@@ -1,0 +1,55 @@
+<form class="container" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="search-input-container">
+    <input type="text" placeholder="Enter user ID..." formControlName="id">
+    <small *ngIf="this.errorMessage">
+      User with this ID does not exist
+    </small>
+    <div *ngIf="form.get('id')!.invalid && form.get('id')!.touched">
+
+      <small *ngIf="form.get('id')!.errors!.required">
+        ID field can't be empty
+      </small>
+
+      <small *ngIf="form.get('id')!.errors!.idPattern">
+        ID must contain only letters and number
+      </small>
+
+    </div>
+  </div>
+
+  <div>
+    <button
+      class="btn"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Search
+    </button>
+    <button class="btn" type="reset">Clear</button>
+  </div>
+
+</form>
+
+<hr>
+
+<div class="card" *ngIf="users[users.length - 1]; else noUsers">
+
+  <div class="image-container">
+    <img [src]="users[users.length - 1].avatar_url" alt="some image">
+  </div>
+
+  <div class="title-container">
+    <h2>{{users[users.length - 1].name}}</h2>
+    <h2 *ngIf="!users[users.length - 1].name">Nameless</h2>
+  </div>
+
+  <div class="info-container">
+    <p>Followers: {{users[users.length - 1].followers}} Following: {{users[users.length - 1].following}}</p>
+    <p *ngIf="users[users.length - 1].company">company: {{users[users.length - 1].company}}</p>
+    <p>Some info</p>
+  </div>
+
+</div>
+<ng-template #noUsers>
+  <p class="text-align-center">Let's find some Users!</p>
+</ng-template>

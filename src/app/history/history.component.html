@@ -1,0 +1,23 @@
+ <div *ngIf="userStorage.users[0]; else noUsers">
+  <div class="card" *ngFor="let user of userStorage.users">
+
+      <div class="image-container">
+        <img [src]="user.avatar_url" alt="some image">
+      </div>
+
+      <div class="title-container">
+        <h2>{{user.name}}</h2>
+        <h2 *ngIf="!user.name">Nameless</h2>
+      </div>
+
+      <div class="info-container">
+        <p>Followers: {{user.followers}} Following: {{user.following}}</p>
+        <p *ngIf="user.company">company: {{user.company}}</p>
+        <button class="btn btn-history" (click)="userStorage.deleteUser(user.id)">Delete</button>
+      </div>
+
+  </div>
+ </div>
+ <ng-template #noUsers>
+     <p class="text-align-center">No users find yet :(</p>
+ </ng-template>
