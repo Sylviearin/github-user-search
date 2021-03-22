@@ -1,16 +1,19 @@
 <form class="container" [formGroup]="form" (ngSubmit)="submit()">
   <div class="search-input-container">
-    <input type="text" placeholder="Enter user ID..." formControlName="id">
+
+    <input type="text" placeholder="Enter user ID..." formControlName="login">
+
     <small *ngIf="this.errorMessage">
       User with this ID does not exist
     </small>
-    <div *ngIf="form.get('id')!.invalid && form.get('id')!.touched">
 
-      <small *ngIf="form.get('id')!.errors!.required">
+    <div *ngIf="form.get('login')!.invalid && form.get('login')!.dirty">
+
+      <small *ngIf="form.get('login')!.errors!.required">
         ID field can't be empty
       </small>
 
-      <small *ngIf="form.get('id')!.errors!.idPattern">
+      <small *ngIf="form.get('login')!.errors!.idPattern">
         ID must contain only letters and number
       </small>
 
@@ -32,20 +35,20 @@
 
 <hr>
 
-<div class="card" *ngIf="users[users.length - 1]; else noUsers">
+<div class="card" *ngIf="users[0]; else noUsers">
 
   <div class="image-container">
-    <img [src]="users[users.length - 1].avatar_url" alt="some image">
+    <img [src]="users[0].avatar_url" alt="some image">
   </div>
 
   <div class="title-container">
-    <h2>{{users[users.length - 1].name}}</h2>
-    <h2 *ngIf="!users[users.length - 1].name">Nameless</h2>
+    <h2>{{users[0].name}}</h2>
+    <h2 *ngIf="!users[0].name">Nameless</h2>
   </div>
 
   <div class="info-container">
-    <p>Followers: {{users[users.length - 1].followers}} Following: {{users[users.length - 1].following}}</p>
-    <p *ngIf="users[users.length - 1].company">company: {{users[users.length - 1].company}}</p>
+    <p>Followers: {{users[0].followers}} Following: {{users[0].following}}</p>
+    <p *ngIf="users[0].company">company: {{users[0].company}}</p>
     <p>Some info</p>
   </div>
 

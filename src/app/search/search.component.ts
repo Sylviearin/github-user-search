@@ -16,15 +16,27 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      id: new FormControl('', [MyValidators.idPattern, Validators.required])
+      login: new FormControl('', [MyValidators.idPattern, Validators.required])
     });
   }
-
+  findSameUser(user: User): boolean {
+    if (user.login === this.form.controls.login.value) {
+      return true;
+    }
+    return false;
+  }
   submit(): void {
-    this.userStorage.getById(this.form.value.id)
+    if (this.users.find(user => this.findSameUser(user))) {
+      this.users.unshift(
+        this.users.splice(
+          this.users.findIndex(user => this.findSameUser(user)),
+          1)[0]);
+      return;
+    }
+    this.userStorage.getById(this.form.value.login)
       .subscribe((data) => {
         console.log(data);
-        this.userStorage.users.push(data as User);
+        this.users.unshift(data as User);
       }, (error) => {
         this.errorMessage = error.message;
         setTimeout(() => this.errorMessage = '', 3000);
