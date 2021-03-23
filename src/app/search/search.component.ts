@@ -19,18 +19,13 @@ export class SearchComponent implements OnInit {
       login: new FormControl('', [MyValidators.idPattern, Validators.required])
     });
   }
-  findSameUser(user: User): boolean {
-    if (user.login === this.form.controls.login.value) {
-      return true;
-    }
-    return false;
-  }
   submit(): void {
-    if (this.users.find(user => this.findSameUser(user))) {
+    const sameUserIndex = this.users.findIndex(user => user.login === this.form.controls.login.value.toLowerCase());
+    if ( sameUserIndex === 0 ) {
+      return;
+    } else if (sameUserIndex > 0) {
       this.users.unshift(
-        this.users.splice(
-          this.users.findIndex(user => this.findSameUser(user)),
-          1)[0]);
+        this.users.splice(sameUserIndex, 1)[0]);
       return;
     }
     this.userStorage.getById(this.form.value.login)
